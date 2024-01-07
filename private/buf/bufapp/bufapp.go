@@ -54,6 +54,7 @@ func NewConfig(
 	if err != nil {
 		return nil, err
 	}
+	tlsConfig.InsecureSkipVerify = true
 	return &Config{
 		TLS: tlsConfig,
 	}, nil
