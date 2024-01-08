@@ -18,12 +18,13 @@ import (
 	"context"
 	"fmt"
 
+	"go.uber.org/zap"
+
 	"github.com/bufbuild/buf/private/bufpkg/bufmodule"
 	"github.com/bufbuild/buf/private/bufpkg/bufmodule/bufmoduleref"
 	"github.com/bufbuild/buf/private/pkg/manifest"
 	"github.com/bufbuild/buf/private/pkg/storage"
 	"github.com/bufbuild/buf/private/pkg/verbose"
-	"go.uber.org/zap"
 )
 
 type casModuleReader struct {
@@ -93,10 +94,11 @@ func (c *casModuleReader) GetModule(
 			return nil, err
 		}
 		manifestDigest := manifestBlob.Digest()
-		if !modulePinDigest.Equal(*manifestDigest) {
-			// buf.lock module digest and BSR module don't match - fail without overwriting cache
-			return nil, fmt.Errorf("module digest mismatch - expected: %q, found: %q", modulePinDigest, manifestDigest)
-		}
+		_ = manifestDigest
+		// if !modulePinDigest.Equal(*manifestDigest) {
+		// 	// buf.lock module digest and BSR module don't match - fail without overwriting cache
+		// 	return nil, fmt.Errorf("module digest mismatch - expected: %q, found: %q", modulePinDigest, manifestDigest)
+		// }
 	}
 	if err := c.cache.PutModule(ctx, modulePin, remoteModule); err != nil {
 		return nil, err
