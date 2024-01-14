@@ -1,0 +1,24 @@
+From 30ccfcd35b758a78109d7eb83c190a4eeef3cc22 Mon Sep 17 00:00:00 2001
+From: hound672 <hound672@gmail.com>
+Date: Sun, 7 Jan 2024 16:56:01 +0300
+Subject: [PATCH] Skip tls check
+
+---
+ private/buf/bufapp/bufapp.go | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/private/buf/bufapp/bufapp.go b/private/buf/bufapp/bufapp.go
+index c8f4beb2..4a05632c 100644
+--- a/private/buf/bufapp/bufapp.go
++++ b/private/buf/bufapp/bufapp.go
+@@ -54,6 +54,7 @@ func NewConfig(
+ 	if err != nil {
+ 		return nil, err
+ 	}
++    tlsConfig.InsecureSkipVerify = true
+ 	return &Config{
+ 		TLS: tlsConfig,
+ 	}, nil
+-- 
+2.43.0
+
